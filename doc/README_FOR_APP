@@ -1,0 +1,43 @@
+
+# Priorities :
+P1
+OK ajouter dans accueil performances qt medias
+ok normaliser les titre de column 
+OK css pour les performances view
+OK largeur minimum pour le site 800x600
+CANCEL remplacer points par virgule dans l'import CSV  mais -> corrections live sur http://amr-archives.complex.ch
+OK css dans pages show de bands, artists, et events
+OK action list dans performances
+OK css min-width pour artists name
+OK Pas de pagination dans http://localhost:3000/events/1?search[event_id_equals]=1&search[order]=ascend_by_date
+
+Dans performances/new, deuxième étape, la fonctione add media ne fonctionne pas.
+OK Faire un listing correct des médias dans l'affichage des performances.
+
+
+
+P2
+OK migration pour ajouter champs description dans medias
+
+P3
+sorter les relations
+
+=======
+
+
+
+
+
+plugins used  calendar_date_select
+info for formats below
+http://code.google.com/p/calendardateselect/wiki/ChangingDateFormat
+
+http://electronicholas.com/calendar   #calendar demo
+
+
+searchlogic (installed as gem and set in environment.rb)
+http://github.com/binarylogic/searchlogic
+http://www.binarylogic.com/2008/9/7/tutorial-pagination-ordering-and-searching-with-searchlogic/
+
+
+active record extensions in /lib/active_record_base_extend.rb

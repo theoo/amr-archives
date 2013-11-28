@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" language="javascript" charset="utf-8">
+  //<![CDATA[
+
+function fillContainerWith(data) {
+
+  data.sort(function(obj_1, obj_2) {
+     return obj_1.date.localeCompare(obj_2.date);
+  });
+
+  $("#container").html("<ul class='listing'></ul>");
+  
+  $.each(data, function(index, value) {
+    
+    // (band, date, location, url, img)
+    
+    $("ul.listing").append("<li></li>");
+    $("ul.listing li").last().append(value.date + " / " + value.band + "<img src='" + value.img + "' />");
+
+    // console.debug(value);
+    if (value.featured_image) {
+      sel.append(" / " + value.featured_image);
+    }
+
+  });
+}
+
+function parseWordpress(data) {
+
+  var ary = [];
+  
+  $.each(data.posts, function(index, value) {
+
+    // (band, date, location, url, img)
+    var skeleton = {  band: value.title, 
+                      date: value.date, 
+                      location: value.content,
+                      url: value.url,
+                      img: value.thumbnail };
+    
+    ary.push(skeleton);
+  
+  });
+
+  return ary;
+}
+
+function fetchWordpress() {
+  $.ajax({
+    url: "http://d437639.u116.swisscenter.com/api/get_category_posts/",
+    data: "slug=concerts",
+    context: document.body,
+    type: 'POST',
+    dataType: 'jsonp',
+    success: function(data, statusMSG, errorMSG){
+      
+      // make it nice and green
+      $("#container").addClass("success");
+    
+      var wp_data = parseWordpress(data);
+      
+      performances = performances.concat(wp_data);
+      
+      fillContainerWith(performances);
+
+    },
+    error: function(jqMSG, statusMSG, errorMSG){
+      // do something
+      $("#container").addClass("failure");
+      $("#container").html(jqMSG + statusMSG + errorMSG);
+    }
+  });
+}
+
+function fetchRails() {
+  $.ajax({
+    url: "http://amr-archives.complex.ch/performances/remote_catalog.json",
+    data: "interval[start]=2008-08-24&interval[end]=2009-08-24",
+    context: document.body,
+    type: 'POST',
+    dataType: 'json',
+    success: function(data, statusMSG, errorMSG){
+
+      // rails object's structure in performances array is mandatory
+      // (band, date, location, url, img)
+
+      performances = data;     
+
+      fetchWordpress();
+
+    },
+    error: function(jqMSG, statusMSG, errorMSG){
+      // do something
+      $("#container").addClass("failure");
+      $("#container").html(jqMSG + statusMSG + errorMSG);
+    }
+  });
+};
+
+$(document).ready( function($) {
+  var performances = [];
+
+  fetchRails();
+  
+});
+  //]]>
+  </script>
+
+  <style type="text/css" media="screen">
+    #container {
+      background-color: #eee;
+      border: solid 10px black;
+    }
+    .success {
+      border: solid 10px green !important;
+    }
+    .failure {
+      border: solid 10px red !important;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div id="container">
+    loading...
+  </div>
+
+</body>
+</html>

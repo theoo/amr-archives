@@ -1,0 +1,1 @@
+page["media_#{@id_for_removal}"].hide

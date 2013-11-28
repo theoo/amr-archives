@@ -1,0 +1,17 @@
+.edit
+  %h2 Editing genre
+  %table
+    %tbody
+      - form_for @genre, :html => {:id => 'edit_genre'} do |f|
+        %tr
+          %td= f.label :name
+          %td= f.text_field :name
+        %tr
+          %td= f.label :desc
+          %td= f.text_field :desc
+      %tr
+        %td
+        %td
+          = button_to 'Cancel', genres_path
+          = button_to_function 'Save changes', "document.forms['edit_genre'].submit();"
+/ /listing

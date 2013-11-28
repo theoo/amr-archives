@@ -17,3 +17,6 @@
 
 /config/database.yml
 /Gemfile.lock
+
+/public/data
+/public/assets

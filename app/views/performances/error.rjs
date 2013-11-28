@@ -1,0 +1,5 @@
+
+
+page["messages"].select("span.errors").first.replace_html flash[:error]
+#flash.discard #so it disappears on browser refresh
+

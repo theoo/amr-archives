@@ -1,0 +1,14 @@
+<tr id="performer_#{performer.id}" #{" class='even'" if array_of_even_performers[performer_counter].even?} >
+%td
+  = "#{performer.first_name} , #{performer.middle_name} , #{performer.last_name}"
+%td
+  = performer.instrument.name
+%td
+  = link_to_remote "delete", :url => {:controller => 'performances', |
+    :action => 'delete_performer',                                   |
+    :id => performer.id}                                             |
+  -#
+  |
+  \#{link_to_remote "edit artist", :url => {:controller => 'performances', :action => 'edit_artist', :id => performer.id}}
+  |
+  \#{link_to_remote "edit instrument", :url => {:controller => 'performances', :action => 'edit_instrument', :id => performer.id}}

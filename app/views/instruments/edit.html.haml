@@ -1,0 +1,14 @@
+.edit
+  %h2 Editing instrument
+  %table
+    %tbody
+      - form_for @instrument, :html => {:id => 'edit_instrument'} do |f|
+        %tr
+          %td= f.label :name
+          %td= f.text_field :name
+      %tr
+        %td
+        %td
+          = button_to 'Cancel', instruments_path
+          = button_to_function 'Save changes', "document.forms['edit_instrument'].submit();"
+/ /listing

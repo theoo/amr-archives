@@ -1,0 +1,23 @@
+!!! 5
+%html
+  %head
+    %title
+      AMR Archives - #{controller.controller_name}
+    = javascript_include_tag :application
+    = csrf_meta_tag
+    = stylesheet_link_tag :application
+  %body
+    #header
+      = render 'layouts/header'
+    .container
+      - if flash[:notice]
+        .alert.alert-info
+          = flash[:notice]
+      - if flash[:errors]
+        .alert.alert-danger
+          = flash[:errors]
+
+      = yield
+
+    #footer.container
+      = render 'layouts/footer'

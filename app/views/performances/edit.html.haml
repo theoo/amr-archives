@@ -1,0 +1,6 @@
+#top
+  %div{:id => "performance_#{@performance.id}"}
+    = render :partial => 'performance_step1_form', :locals => {:button_action => 'update', |
+      :method => 'put' }                                                                   |
+#bottom
+  = render :partial => 'performance_step2_form'

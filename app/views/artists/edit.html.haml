@@ -1,0 +1,20 @@
+.edit
+  %h2 Editing artist
+  %table
+    %tbody
+      - form_for @artist, :html => {:id => 'edit_artist'} do |f|
+        %tr
+          %td= f.label :first_name
+          %td= f.text_field :first_name
+        %tr
+          %td= f.label :middle_name
+          %td= f.text_field :middle_name
+        %tr
+          %td= f.label :last_name
+          %td= f.text_field :last_name
+      %tr
+        %td
+        %td
+          = button_to 'Cancel', artists_path
+          = button_to_function 'Save changes', "document.forms['edit_artist'].submit();"
+/ /listing

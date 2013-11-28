@@ -1,0 +1,5 @@
+
+page["add_media"].replace_html :partial => 'edit_media',
+                               :locals => {:media => @media}
+
+page["add_media"].visual_effect :highlight

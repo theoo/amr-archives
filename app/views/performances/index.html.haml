@@ -1,0 +1,40 @@
+.row
+  .col-lg-12
+    %h2 Browsing performances
+
+.row
+  .col-lg-12
+    - if current_user
+      #actions.fat{:onclick => "window.location.href = '#{url_for new_performance_path}';"}
+        = link_to "Create new performance", new_performance_path
+    //= render :partial => 'search'
+.row
+  .col-lg-12
+    %table.table
+      %thead
+        %tr
+          %th date
+          %th band name
+          %th event name
+          %th artists
+          %th medias
+          %th actions
+      %tbody
+        - @performances.each_with_index do |performance, index|
+          %tr
+          %td= performance.date_formatted
+          %td= link_to performance.band.name, band_path(performance.band)
+          %td= link_to performance.event.name.cut(20), event_path(performance.event)
+          %td= button_to performance.artists.count,
+            list_artists_path(ids: performance.artists.map(&:id).join("|")),
+            method: :post
+          %td= button_to performance.medias.count,
+            list_artists_path(ids: performance.medias.map(&:id).join("|")),
+            method: :post
+          %td
+            = link_to "show", performance, :class => 'btn btn-sm btn-default'
+            - if current_user
+              = link_to("edit", edit_performance_path(performance), :class => 'btn btn-sm btn-default')
+              = link_to("destroy", performance, :confirm => 'Are you sure ?', :method => :delete, :class => 'btn btn-sm btn-danger')
+    .text-center
+      = will_paginate @performances, :params => { :search_string => @search_string }

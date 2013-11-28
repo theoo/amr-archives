@@ -1,0 +1,17 @@
+.edit
+  %h2 Editing event
+  %table
+    %tbody
+      - form_for @event, :html => {:id => 'edit_event'} do |f|
+        %tr
+          %td= f.label :name
+          %td= f.text_field :name
+        %tr
+          %td= f.label :desc
+          %td= f.text_field :desc
+      %tr
+        %td
+        %td
+          = button_to 'Cancel', events_path
+          = button_to_function 'Save changes', "document.forms['edit_event'].submit();"
+/ /listing

@@ -1,0 +1,33 @@
+.listing
+  %h2 Browsing genres
+  - unless params[:ids]
+    - form_tag genres_path, :class => 'search_form simple_search labelized_form fat' do
+      = text_field_tag 'search_string', @search_string, :size => 45
+      = submit_tag 'search'
+  = will_paginate @genres, :params => { :search_string => @search_string, |
+    :order_direction => @order_direction,                                 |
+    :order_attribute => @order_attribute,                                 |
+    :ids => @ids }                                                        |
+  %table
+    %thead
+      %tr
+        %th
+          = order_by_link_to 'name', @order_direction, @search_string, @ids
+        %th desc
+        %th bands
+        %th actions
+    %tbody
+      - @genres.each_with_index do |genre, index|
+        <tr#{" class='even'" if index.even?}>
+        %td= genre.name
+        %td= genre.desc
+        %td
+          = post_to genre, 'bands'
+        %td
+          = link_to "edit", edit_genre_path(genre) if current_user
+          = " | " + link_to("destroy", genre, :confirm => 'Are you sure?', :method => :delete) if genre.valid_destroy? && current_user
+  = will_paginate @genres, :params => { :search_string => @search_string, |
+    :order_direction => @order_direction,                                 |
+    :order_attribute => @order_attribute,                                 |
+    :ids => @ids }                                                        |
+/ /listing

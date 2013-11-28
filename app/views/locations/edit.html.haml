@@ -1,0 +1,17 @@
+.edit
+  %h2 Editing location
+  %table
+    %tbody
+      - form_for @location, :html => {:id => 'edit_location'} do |f|
+        %tr
+          %td= f.label :name
+          %td= f.text_field :name
+        %tr
+          %td= f.label :desc
+          %td= f.text_field :desc
+      %tr
+        %td
+        %td
+          = button_to 'Cancel', locations_path
+          = button_to_function 'Save changes', "document.forms['edit_location'].submit();"
+/ /listing

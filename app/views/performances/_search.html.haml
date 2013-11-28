@@ -1,0 +1,20 @@
+- form_for @search, :html => {:class => 'search_form fat labelized_form'} do |f|
+  .advanced
+    %h3 search box
+    %label event:
+    = f.text_field :event_name_like
+    %label band:
+    = f.text_field :band_name_like
+    %label artist last name:
+    = f.text_field :performers_artist_last_name_like
+    %label artist first name:
+    = f.text_field :performers_artist_first_name_like
+    %label instrument:
+    = f.text_field :performers_instrument_name_like
+  %label start date:
+  .date_selector
+    = f.calendar_date_select :date_greater_than_or_equal_to, :year_range => [oldest_year, Date.today.year + 2], :size => 10
+  %label end date:
+  .date_selector
+    = f.calendar_date_select :date_less_than_or_equal_to, :year_range => [oldest_year, Date.today.year + 2], :size => 10
+  %div{:style => "text-align: right; margin: 0 100px;"}= f.submit "search"

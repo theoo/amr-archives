@@ -1,0 +1,46 @@
+.row
+  .col-lg-12
+    %h2 Browsing bands
+.row
+  .col-lg-12
+    - unless params[:ids]
+      - form_tag bands_path, :class => 'search_form simple_search labelized_form fat' do
+        = text_field_tag 'search_string', @search_string, :size => 45
+        = submit_tag 'search'
+.row
+  .col-lg-12
+    %table.table
+      %thead
+        %tr
+          %th
+            = order_by_link_to 'name', @order_direction, @search_string, @ids
+          %th desc
+          %th artists
+          %th performances
+          %th actions
+      %tbody
+        - @bands.each_with_index do |band, index|
+          <tr#{" class='even'" if index.even?}>
+          %td= band.name
+          %td= band.desc
+          %td
+            = button_to band.artists.count,
+            list_artists_path(ids: band.artists.map(&:id).join("|")),
+            method: :post
+          %td
+            = button_to band.performances.count,
+            list_performances_path(ids: band.performances.map(&:id).join("|")),
+            method: :post
+          %td
+            = link_to "show", band, :class => 'btn btn-sm btn-default'
+            - if current_user
+              |
+              \#{link_to "edit", edit_band_path(band), :class => 'btn btn-sm btn-default'}
+            - if band.valid_destroy? && current_user
+              |
+              \#{link_to "destroy", band, :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-sm btn-danger'}
+    .text-center
+      = will_paginate @bands, :params => { :search_string => @search_string,
+        :order_direction => @order_direction,
+        :order_attribute => @order_attribute,
+        :ids => @ids }

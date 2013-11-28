@@ -1,0 +1,6 @@
+page[:media_list].select("tbody").first.replace_html :partial => 'media', :collection => @performance.medias
+page[:add_media_form].reset
+
+#update flash notice
+page["messages"].select("span.notice").first.replace_html flash[:notice]
+flash.discard #so it disappears on browser refresh

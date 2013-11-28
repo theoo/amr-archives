@@ -1,0 +1,41 @@
+.listing
+  %h2 Browsing medias
+  - unless params[:ids]
+    - form_tag medias_path, :class => 'search_form simple_search labelized_form fat' do
+      = text_field_tag 'search_string', @search_string, :size => 45
+      = submit_tag 'search'
+  = will_paginate @medias, :params => { :search_string => @search_string, |
+    :order_direction => @order_direction,                                 |
+    :order_attribute => @order_attribute,                                 |
+    :ids => @ids }                                                        |
+  %table
+    %thead
+      %tr
+        %th
+          = order_by_link_to 'name', @order_direction, @search_string, @ids
+        %th
+          = order_by_link_to 'url', @order_direction, @search_string, @ids
+        %th performance date
+        %th performance band
+        %th actions
+    %tbody
+      - @medias.each_with_index do |media, index|
+        <tr#{" class='even'" if index.even?}>
+        %td= media.name
+        %td= link_to media.url, media.public_url
+        %td= media.performance.date_formatted
+        %td= link_to media.performance.band.name, media.performance.band
+        %td
+          = link_to "play", media.public_url
+          |
+          \#{link_to "show performance", media.performance}
+          - if current_user
+            |
+            \#{link_to "destroy", media, :confirm => 'Are you sure?', :method => :delete}
+            |
+            \#{link_to "edit", edit_media_path(media)}
+  = will_paginate @medias, :params => { :search_string => @search_string, |
+    :order_direction => @order_direction,                                 |
+    :order_attribute => @order_attribute,                                 |
+    :ids => @ids }                                                        |
+/ /listing

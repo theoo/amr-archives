@@ -1,0 +1,11 @@
+%li{:id => "performer_#{performer_id}"}
+  - form_remote_tag( :complete=>'handleComplete(request)',
+  - :url=>{:controller=>'performances',
+  - :action =>:update_artist,
+  - :id => performer_id},
+  - :html => { :id => "performer_#{performer_id}" }) do
+    first name: #{text_field "artist", "first_name"}
+    middle name: #{text_field "artist", "middle_name"}
+    last name: #{text_field "artist", "last_name"}
+    \#{submit_tag 'update'}
+    \#{link_to_function 'cancel', 'window.location.reload(true);'}

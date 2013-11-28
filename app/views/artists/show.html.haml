@@ -1,0 +1,31 @@
+.listing
+  %h1
+    Artist information for: #{@artist.full_name}
+  %h2 Instrument list
+  %table.sortable
+    %thead
+      %tr
+        %th.clickable.ascending
+          instrument name
+        %th.clickable{:sort => "integer"}
+          performances
+          </th class="clickable">
+    %tbody
+      - @artist.instruments.each_with_index do |instrument, index|
+        <tr #{" class='even'" if index.even?} >
+        %td= instrument.name
+        %td= @artist.get_performances_where_i_play(instrument).count
+  %h2 Band list
+  %table.sortable
+    %thead
+      %tr
+        %th.clickable.ascending
+          band name
+        %th.clickable{:sort => "integer"}
+          performances
+    %tbody
+      - @artist.bands.each_with_index do |band, index|
+        <tr#{" class='even'" if index.even?}>
+        %td= link_to band.name, band
+        %td= @artist.get_performances_where_i_play_in_band(band).count
+/ /listing

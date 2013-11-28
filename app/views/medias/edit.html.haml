@@ -1,0 +1,17 @@
+.edit
+  %h2 Editing media
+  %table
+    %tbody
+      - form_for @media, :html => {:id => 'edit_media'} do |f|
+        %tr
+          %td= f.label :name
+          %td= f.text_field :name
+        %tr
+          %td= f.label :url
+          %td= f.text_field :url
+      %tr
+        %td
+        %td
+          = button_to 'Cancel', medias_path
+          = button_to_function 'Save changes', "document.forms['edit_media'].submit();"
+/ /listing

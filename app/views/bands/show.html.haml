@@ -1,0 +1,40 @@
+.listing
+  %h1
+    Band information for: #{@band.name}
+  %h2 Members
+  %table.sortable
+    %thead
+      %tr
+        %th.clickable.artists.ascending
+          artist name
+        %th.clickable
+          instruments
+        %th.clickable{:sort => "integer"}
+          performances
+    %tbody
+      - @band.artists.each_with_index do |artist, index|
+        <tr #{" class='even'" if index.even?} >
+        %td= link_to "#{artist.last_name} #{artist.middle_name} #{artist.first_name}", artist
+        %td= artist.get_instruments_where_i_play_in_band(@band).map { |i| i.name }.join(', ')
+        %td= post_to_alt artist, "get_performances_where_i_play_in_band", @band, "performances"
+  %h2 Concerts
+  %table.sortable
+    %thead
+      %tr
+        %th.clickable.ascending{:sort => "date"}
+          date
+        %th.clickable
+          location
+        %th.clickable
+          event
+        %th.clickable
+          actions
+    %tbody
+      - @band.performances.each_with_index do |performance, index|
+        <tr #{" class='even'" if index.even?} >
+        %td
+          = performance.date_formatted
+        %td= performance.location.name
+        %td= link_to performance.event.name, performance.event
+        %td= link_to "show", performance
+/ /listing

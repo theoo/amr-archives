@@ -1,0 +1,33 @@
+.listing
+  %h2 Browsing locations
+  - unless params[:ids]
+    - form_tag locations_path, :class => 'search_form simple_search labelized_form fat' do
+      = text_field_tag 'search_string', @search_string, :size => 45
+      = submit_tag 'search'
+  = will_paginate @locations, :params => { :search_string => @search_string, |
+    :order_direction => @order_direction,                                    |
+    :order_attribute => @order_attribute,                                    |
+    :ids => @ids }                                                           |
+  %table
+    %thead
+      %tr
+        %th
+          = order_by_link_to 'name', @order_direction, @search_string, @ids
+        %th desc
+        %th performances
+        %th actions
+    %tbody
+      - @locations.each_with_index do |location, index|
+        <tr#{" class='even'" if index.even?}>
+        %td= location.name
+        %td= location.desc
+        %td
+          = post_to location, 'performances'
+        %td
+          = link_to "edit", edit_location_path(location) if current_user
+          = " | " + link_to("destroy", location, :confirm => 'Are you sure?', :method => :delete) if location.valid_destroy? && current_user
+  = will_paginate @locations, :params => { :search_string => @search_string, |
+    :order_direction => @order_direction,                                    |
+    :order_attribute => @order_attribute,                                    |
+    :ids => @ids }                                                           |
+/ /listing

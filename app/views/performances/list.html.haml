@@ -1,0 +1,36 @@
+.listing
+  %h2 Browsing performances
+  = will_paginate @performances, :params => { :search_string => @search_string, |
+    :order_direction => @order_direction,                                       |
+    :order_attribute => @order_attribute,                                       |
+    :ids => @ids }                                                              |
+  %table
+    %thead
+      %tr
+        %th
+          = order_by_link_to 'date', @order_direction, @search_string, @ids
+        %th
+          band
+        %th
+          event
+        %th artists
+        %th medias
+        %th actions
+    %tbody
+      - @performances.each_with_index do |performance, index|
+        <tr#{" class='even'" if index.even?}>
+        %td= performance.date_formatted
+        %td= link_to performance.band.name, performance.band
+        %td= link_to performance.event.name.cut(20), performance.event unless performance.event.name.empty?
+        %td= post_to performance, 'artists'
+        %td= post_to performance, 'medias'
+        %td
+          = link_to "edit", edit_performance_path(performance) if current_user
+          |
+          \#{link_to "show", performance} |
+          \#{link_to "destroy", performance, :confirm => 'Are you sure ?', :method => :delete if current_user}
+  = will_paginate @performances, :params => { :search_string => @search_string, |
+    :order_direction => @order_direction,                                       |
+    :order_attribute => @order_attribute,                                       |
+    :ids => @ids }                                                              |
+/ /listing

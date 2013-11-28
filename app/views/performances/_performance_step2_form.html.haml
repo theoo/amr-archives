@@ -1,0 +1,57 @@
+.listing
+  %h3 performer list
+  #add_performer.inline.fat.labelized_form
+    - form_remote_tag(:url => {:controller => 'performances',
+    - :action => 'add_performer',
+    - :id => @performance.id},
+    - :html => { :id => "add_performer_form" }) do
+      %label complete name:
+      = text_field "artist", "full_name"
+      (ex: Miles Junior Davis)
+      %br
+      %label instrument list:
+      = text_field "instrument", "list"
+      (ex: piano, trompette, chant, 'oud)
+
+      submit_tag 'Add performer to list'
+  %table#performer_list
+    %thead
+      %tr
+        %th artist (first name , middle name , last name)
+        %th instrument
+        %th actions
+    %tbody
+      - if @performance.performers.empty?
+        %tr
+          %td{:colspan => "3"} No performers yet
+      - else
+        = render :partial => 'performer', :collection => @performance.performers.sort_by(&:last_name), :locals => { :array_of_even_performers => @performance.array_of_even_performers}
+  %h3 media list
+  #add_media.inline.fat.labelized_form
+    - form_tag(url_for(:controller => 'performances',
+    - :action => 'add_media',
+    - :id => @performance.id),
+    - :multipart => true,
+    - :html => { :id => "add_media_form" }) do
+      %label name:
+      = text_field "media_add", "name"
+      (featured = front page image on amr-geneve.ch,
+      this will generate a thumbnail.
+      Size MUST be 685px * 220px)
+      %br
+      %label URL:
+      = file_field "media_add", "url"
+      = submit_tag 'Add to the list'
+  %table#media_list
+    %thead
+      %tr
+        %th name
+        %th URL
+        %th mime type
+        %th actions
+    %tbody
+      - if @performance.medias.empty?
+        %tr
+          %td{:colspan => "3"} No medias yet
+      - else
+        = render :partial => 'media', :collection => @performance.medias

@@ -1,0 +1,5 @@
+page["add_performer"].replace_html :partial => 'instrument',
+                                   :locals => {:instrument => @instrument,
+                                                :performer_id => @performer_id}
+
+page["add_performer"].visual_effect :highlight

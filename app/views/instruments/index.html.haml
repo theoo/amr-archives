@@ -1,0 +1,37 @@
+.listing
+  %h2 Browsing instruments
+  - unless params[:ids]
+    - form_tag instruments_path, :class => 'search_form simple_search labelized_form fat' do
+      = text_field_tag 'search_string', @search_string, :size => 45
+      = submit_tag 'search'
+  = will_paginate @instruments, :params => { :search_string => @search_string, |
+    :order_direction => @order_direction,                                      |
+    :order_attribute => @order_attribute,                                      |
+    :ids => @ids }                                                             |
+  %table
+    %thead
+      %tr
+        %th
+          = order_by_link_to 'name', @order_direction, @search_string, @ids
+        %th artists
+        %th performances
+        %th events
+        %th actions
+    %tbody
+      - @instruments.each_with_index do |instrument, index|
+        <tr#{" class='even'" if index.even?}>
+        %td= instrument.name
+        %td
+          = post_to instrument, 'artists'
+        %td
+          = post_to instrument, 'performances'
+        %td
+          = post_to instrument, 'events'
+        %td
+          = link_to "edit", edit_instrument_path(instrument) if current_user
+          = " | " + link_to("destroy", instrument, :confirm => 'Are you sure?', :method => :delete) if instrument.valid_destroy? && current_user
+  = will_paginate @instruments, :params => { :search_string => @search_string, |
+    :order_direction => @order_direction,                                      |
+    :order_attribute => @order_attribute,                                      |
+    :ids => @ids }                                                             |
+/ /listing

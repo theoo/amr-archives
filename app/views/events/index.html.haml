@@ -1,0 +1,41 @@
+.listing
+  %h2 Browsing events
+  - unless params[:ids]
+    - form_tag events_path, :class => 'search_form simple_search labelized_form fat' do
+      = text_field_tag 'search_string', @search_string, :size => 45
+      = submit_tag 'search'
+  = will_paginate @events, :params => { :search_string => @search_string, |
+    :order_direction => @order_direction,                                 |
+    :order_attribute => @order_attribute,                                 |
+    :ids => @ids }                                                        |
+  %table
+    %thead
+      %tr
+        %th
+          = order_by_link_to 'name', @order_direction, @search_string, @ids
+        %th desc
+        %th performances
+        %th locations
+        %th actions
+    %tbody
+      - @events.each_with_index do |event, index|
+        <tr#{" class='even'" if index.even?}>
+        %td= event.name
+        %td= event.desc
+        %td
+          = post_to event, 'performances'
+        %td
+          = post_to event, 'locations'
+        %td
+          = link_to "show", event
+          - if current_user
+            |
+            \#{link_to "edit", edit_event_path(event) if current_user}
+          - if event.valid_destroy? && current_user
+            |
+            \#{link_to "destroy", event, :confirm => 'Are you sure?', :method => :delete}
+  = will_paginate @events, :params => { :search_string => @search_string, |
+    :order_direction => @order_direction,                                 |
+    :order_attribute => @order_attribute,                                 |
+    :ids => @ids }                                                        |
+/ /listing

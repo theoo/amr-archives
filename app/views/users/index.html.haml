@@ -1,0 +1,14 @@
+%table
+  %tr
+    %th Login
+    %th Email
+    %th Password
+  - for user in @users
+    %tr
+      %td= h user.login
+      %td= h user.email
+      %td= h user.password
+      %td= link_to "Show", user
+      %td= link_to "Edit", edit_user_path(user)
+      %td= link_to "Destroy", user, :confirm => 'Are you sure?', :method => :delete
+%p= link_to "New User", new_user_path

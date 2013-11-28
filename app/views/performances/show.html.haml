@@ -1,0 +1,55 @@
+.listing
+  %h1 Performance information
+  - if current_user
+    %center
+      [ #{link_to("edit", edit_performance_path(@performance))} ]
+  .search_form.fat.labelized_form
+    %label band:
+    %span
+      = link_to(@performance.band.name, @performance.band)
+      \&nbsp;
+    %label event:
+    %span
+      = link_to(@performance.event.name, @performance.event) unless @performance.event.name.empty?
+      \&nbsp;
+    %label date:
+    %span
+      = @performance.date_formatted
+      \&nbsp;
+    %label location:
+    %span
+      = @performance.location.name
+      \&nbsp;
+    %label description:
+    %span
+      = @performance.desc
+      \&nbsp;
+  %h2 Artists & instruments
+  %table.sortable
+    %thead
+      %tr
+        %th.clickable.ascending artist name
+        %th.clickable instruments
+    %tbody
+      - @performance.artists.each_with_index do |artist, index|
+        <tr#{" class='even'" if index.even?}>
+        %td= link_to artist.full_name_reverse, artist
+        %td= @performance.list_of_instrument_names_for(artist).join(", ")
+  %h2 Media list
+  - if @performance.medias.empty?
+    %center The media list for this performance is empty
+  - else
+    %table.sortable
+      %thead
+        %tr
+          %th.clickable.ascending media
+          %th type
+          %th description
+      %tbody
+        - @performance.medias.each_with_index do |media, index|
+          <tr#{" class='even'" if index.even?}>
+          %td= link_to media.name, media.public_url
+          %td= media.mime
+          %td= media.description
+/ /listing
+/ /listing

@@ -1,0 +1,14 @@
+%tr{:id => "media_#{media.id}"}
+%td
+  = media.name
+%td
+  - if media.mime == 'image/jpeg' or
+  - media.mime == 'image/gif' or
+  - media.mime == 'image/png'
+    = link_to (image_tag media.public_url, :width => 100), media.public_url
+  - else
+    = link_to media.public_url, media.public_url
+%td
+  = media.mime
+%td
+  = link_to_remote "delete", :url => {:controller => 'performances', :action => 'delete_media', :id => media.id}

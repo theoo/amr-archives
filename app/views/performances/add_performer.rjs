@@ -1,0 +1,8 @@
+page[:performer_list].select("tbody").first.replace_html :partial => 'performer', 
+                                                         :collection => @performance.performers.sort_by(&:last_name),
+                                                         :locals => { :array_of_even_performers => @performance.array_of_even_performers}
+page[:add_performer_form].reset
+
+#update flash notice
+page["messages"].select("span.notice").first.replace_html flash[:notice]
+flash.discard #so it disappears on browser refresh

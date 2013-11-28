@@ -1,0 +1,22 @@
+.listing
+  %h1
+    Event information for: #{@event.name == " " ? @event.name : "<i>Orphan events</i>"}
+  %h2 performances list
+  = will_paginate @performances
+  %table
+    %thead
+      %tr
+        %th
+          = order @search, :by => :date
+        %th
+          = order @search, :by => :band_name
+        %th
+          = order @search, :by => :location_name
+    %tbody
+      - @performances.each_with_index do |performance, index|
+        <tr#{" class='even'" if index.even?}>
+        %td= performance.date_formatted
+        %td= link_to performance.band.name, performance.band
+        %td= performance.location.name
+  = will_paginate @performances
+/ /listing

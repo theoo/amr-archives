@@ -1,0 +1,33 @@
+%h2 New performance
+#error_messages= error_messages_for :performance
+.search_form.fat.labelized_form
+  - form_tag({:action => button_action}, :method => method) do
+    .advanced
+      = label_tag(:event_name, "Event name:")
+      = text_field_tag(:event_name, @performance.event.name, :size => 50)
+    .date_selector
+      = label_tag(:performance_name, "date and time:")
+      = calendar_date_select_tag "date", @performance.date, :year_range => [oldest_year, Date.today.year + 2], :time => true, :onchange => "$('doors').value = this.value;"
+    .date_selector
+      = label_tag(:performance_name, "doors opening:")
+      = calendar_date_select_tag "doors", @performance.doors_opening, :year_range => [oldest_year, Date.today.year + 2], :time => true
+    .advanced
+      = label_tag(:location_name, "location:")
+      = text_field_tag(:location_name, @performance.location.name, :size => 50)
+    .advanced
+      = label_tag(:price, "price (full text):")
+      = text_area_tag(:price, @performance.price, :size => "50x3")
+    .advanced
+      = label_tag(:ticketing, "ticketing (url):")
+      = text_field_tag(:ticketing, @performance.ticketing, :size => 50)
+    .advanced
+      = label_tag(:band_name, "band:")
+      = text_field_tag(:band_name, @performance.band.name, :size => 50)
+    .advanced
+      = label_tag(:desc, "description:")
+      = text_area_tag(:desc, @performance.desc, :size => "50x10")
+    %div{:style => "text-align: left; margin: 20pt 130px;"}
+      - if button_action == 'create'
+        = submit_tag("add performers and media")
+      - else
+        = submit_tag("finish edition")
